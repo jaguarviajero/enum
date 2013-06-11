@@ -64,7 +64,7 @@ __copyright__ = (
 __license__ = "Choice of GPL or Python license"
 
 __url__ = "http://pypi.python.org/pypi/enum/"
-__version__ = "0.4.4"
+__version__ = "0.4.5"
 
 
 class EnumException(Exception):
@@ -127,6 +127,7 @@ class EnumValue(object):
         self._enumtype = enumtype
         self._index = index
         self._key = key
+        self._salt = id(self)
 
     @property
     def enumtype(self):
@@ -147,7 +148,7 @@ class EnumValue(object):
         return "EnumValue(%(_enumtype)r, %(_index)r, %(_key)r)" % vars(self)
 
     def __hash__(self):
-        return hash(self._index)
+        return hash(self._index + self._salt)
 
     @_comparator
     def __eq__(self, other):
